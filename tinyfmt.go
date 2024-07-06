@@ -1,9 +1,5 @@
 package tinyfmt
 
-import (
-	"strconv"
-)
-
 // Sprint formats the provided arguments and returns the resulting string
 func Sprint(arguments ...interface{}) string {
 	// Initialize an empty string to store the result
@@ -17,7 +13,7 @@ func Sprint(arguments ...interface{}) string {
 			result += value
 		case int:
 			// If the argument is an int, convert it to a string and append it to the result
-			result += strconv.Itoa(value)
+			result += itoa(value)
 		default:
 			// For unsupported types, append a placeholder
 			result += "<unsupported>"
