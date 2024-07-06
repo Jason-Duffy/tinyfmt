@@ -1,16 +1,28 @@
 package tinyfmt
 
+import (
+	"strconv"
+)
+
 // Sprint formats the provided arguments and returns the resulting string
-// Takes a variadic parameter (a list of arguments of any type) and returns a string.
-func Sprint(a ...interface{}) string {
-	// If only one argument was passed in
-	if len(a) == 1 {
-		// Check if the first argument is of type string
-		if str, ok := a[0].(string); ok {
-			// If it is, return the string
-			return str
+func Sprint(arguments ...interface{}) string {
+	// Initialize an empty string to store the result
+	var result string
+	// Iterate over each argument
+	for _, argument := range arguments {
+		// Perform a type switch to handle different types of arguments
+		switch value := argument.(type) {
+		case string:
+			// If the argument is a string, append it to the result
+			result += value
+		case int:
+			// If the argument is an int, convert it to a string and append it to the result
+			result += strconv.Itoa(value)
+		default:
+			// For unsupported types, append a placeholder
+			result += "<unsupported>"
 		}
 	}
-	// If the condition above wasn't met, return an empty string.
-	return ""
+	// Return the concatenated result
+	return result
 }

@@ -4,15 +4,25 @@ import (
 	"testing"
 )
 
-// TestSprint tests the Sprint function for a single string
+// TestSprint tests the Sprint function for various inputs
 func TestSprint(t *testing.T) {
-	// The "got" variable holds the result of calling the Sprint function with the argument "Hello, world!".
-	got := Sprint("Hello, world!")
-	// The "want" variable represents the expected result of the Sprint function.
-	want := "Hello, world!"
+	// Define a slice of test cases, each with input arguments and the expected output
+	testCases := []struct {
+		inputArgs []interface{}
+		want      string
+	}{
+		{[]interface{}{"Hello, world!"}, "Hello, world!"}, // Test case for a single string
+		{[]interface{}{"Number: ", 42}, "Number: 42"},     // Test case for a string and an integer
+	}
 
-	// Compare the actual result ("got") with the expected result ("want"), and raise an error if they don't match.
-	if got != want {
-		t.Errorf("Sprint() = %q, want %q", got, want)
+	// Iterate over each test case
+	for _, testCase := range testCases {
+		// Call the Sprint function with the test input arguments
+		got := Sprint(testCase.inputArgs...)
+		// Check if the output matches the expected value
+		if got != testCase.want {
+			// If not, report an error
+			t.Errorf("Sprint(%v) = %q, want %q", testCase.inputArgs, got, testCase.want)
+		}
 	}
 }
