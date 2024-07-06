@@ -14,6 +14,12 @@ func Sprint(arguments ...interface{}) string {
 		case int:
 			// If the argument is an int, convert it to a string and append it to the result
 			result += itoa(value)
+		case bool:
+			if value {
+				result += "true"
+			} else {
+				result += "false"
+			}
 		default:
 			// For unsupported types, append a placeholder
 			result += "<unsupported>"

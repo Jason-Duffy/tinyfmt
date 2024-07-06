@@ -13,6 +13,8 @@ func TestSprint(t *testing.T) {
 	}{
 		{[]interface{}{"Hello, world!"}, "Hello, world!"}, // Test case for a single string
 		{[]interface{}{"Number: ", 42}, "Number: 42"},     // Test case for a string and an integer
+		{[]interface{}{"Value: ", true}, "Value: true"},   // Test case for a string and a boolean
+		{[]interface{}{"Value: ", false}, "Value: false"}, // Test case for a string and a boolean
 	}
 
 	// Iterate over each test case
