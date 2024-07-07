@@ -1,3 +1,21 @@
+// =============================================================================
+// Project: tinyfmt
+// File: sprint.go
+// Description: Functions for printing formatted strings to io.Writer and os.Stdout.
+// Datasheet/Docs:
+//
+// Author: Jason Duffy
+// Created on: 07/07/2024
+//
+// Copyright: (C) 2024, Jason Duffy
+// License: See LICENSE file in the project root for full license information.
+// Disclaimer: See DISCLAIMER file in the project root for full disclaimer.
+// =============================================================================
+
+// -------------------------------------------------------------------------- //
+//                               Import Statement                             //
+// -------------------------------------------------------------------------- //
+
 package tinyfmt
 
 import (
@@ -5,6 +23,10 @@ import (
 
 	"github.com/Jason-Duffy/tinystrconv"
 )
+
+// -------------------------------------------------------------------------- //
+//                              Public Functions                              //
+// -------------------------------------------------------------------------- //
 
 // Sprint concatenates the string representations of the provided arguments.
 func Sprint(arguments ...interface{}) string {

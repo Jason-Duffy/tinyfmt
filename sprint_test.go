@@ -1,9 +1,31 @@
+// =============================================================================
+// Project: tinyfmt
+// File: sprint_test.go
+// Description: Test suite for sprint functions in tinyfmt package.
+// Datasheet/Docs:
+//
+// Author: Jason Duffy
+// Created on: 07/07/2024
+//
+// Copyright: (C) 2024, Jason Duffy
+// License: See LICENSE file in the project root for full license information.
+// Disclaimer: See DISCLAIMER file in the project root for full disclaimer.
+// =============================================================================
+
+// -------------------------------------------------------------------------- //
+//                               Import Statement                             //
+// -------------------------------------------------------------------------- //
+
 package tinyfmt
 
 import (
 	"math"
 	"testing"
 )
+
+// -------------------------------------------------------------------------- //
+//                              Public Functions                              //
+// -------------------------------------------------------------------------- //
 
 func TestSprint(t *testing.T) {
 	testCases := []struct {
