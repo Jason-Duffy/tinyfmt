@@ -7,7 +7,8 @@
 - **Sprint**: Concatenate strings and convert different types to string.
 - **Sprintf**: Format strings with various format specifiers.
 - **Printf**: Print formatted strings to the standard output.
-- **PrintToIO**: Print formatted strings to a specified `io.Writer`.
+- **PrintToIo**: Print formatted strings to a specified `io.Writer`.
+- **Errorf**: Format error messages with various format specifiers.
 
 ## Goals
 
@@ -136,9 +137,9 @@ func main() {
 }
 ```
 
-### PrintToIO
+### PrintToIo
 
-`PrintToIO` prints formatted strings to a specified `io.Writer`.
+`PrintToIo` prints formatted strings to a specified `io.Writer`.
 
 ```go
 package main
@@ -151,11 +152,30 @@ import (
 
 func main() {
 	var buf bytes.Buffer
-	tinyfmt.PrintToIO(&buf, "Hello, %s!", "world")
+	tinyfmt.PrintToIo(&buf, "Hello, %s!", "world")
 	println(buf.String())
 
 	// Printing to standard output
-	tinyfmt.PrintToIO(os.Stdout, "Value: %d\n", 42)
+	tinyfmt.PrintToIo(os.Stdout, "Value: %d\n", 42)
+}
+```
+
+### Errorf
+
+`Errorf` formats error messages with various format specifiers.
+
+```go
+package main
+
+import (
+	"github.com/Jason-Duffy/tinyfmt"
+)
+
+func main() {
+	err := tinyfmt.Errorf("This is an error with value: %d", 42)
+	if err != nil {
+		println(err.Error())
+	}
 }
 ```
 
