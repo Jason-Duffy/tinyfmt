@@ -28,5 +28,5 @@ func Sprint(arguments ...interface{}) string {
 
 // Sprintf formats the provided arguments according to the format specifier.
 func Sprintf(format string, arguments ...interface{}) (string, error) {
-	return tinystrconv.Format(format, arguments...)
+	return Format(format, arguments...)
 }

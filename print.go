@@ -4,13 +4,11 @@ import (
 	"errors"
 	"io"
 	"os"
-
-	"github.com/Jason-Duffy/tinystrconv"
 )
 
 // PrintToIo formats according to a format specifier and writes to the provided io.Writer.
 func PrintToIo(w io.Writer, format string, arguments ...interface{}) error {
-	result, err := tinystrconv.Format(format, arguments...)
+	result, err := Format(format, arguments...)
 	if err != nil {
 		return errors.New("failed to format the string")
 	}
