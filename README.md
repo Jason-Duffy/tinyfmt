@@ -19,7 +19,7 @@ The main goals of `tinyfmt` are:
 
 ## Requirements
 
-- Go 1.15 or later
+- Go 1.20 or later
 
 ## Installation
 
@@ -32,6 +32,23 @@ go get github.com/Jason-Duffy/tinyfmt
 ## Usage
 
 Here are some examples of how to use `tinyfmt`:
+
+### Error Handling
+
+All functions return an error as the second return value. You can discard this error if you don't need it by using `_`:
+
+```go
+result, err := tinyfmt.Sprintf("Hello, %s!", "world")
+if err != nil {
+    println("Error:", err.Error())
+} else {
+    println(result)
+}
+
+// Discarding the error
+result, _ = tinyfmt.Sprintf("Hello, %s!", "world")
+println(result)
+```
 
 ### Sprint
 
@@ -74,54 +91,26 @@ import (
 )
 
 func main() {
-	result, err := tinyfmt.Sprintf("Hello, %s!", "world")
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ := tinyfmt.Sprintf("Hello, %s!", "world")
+	println(result)
 
-	result, err = tinyfmt.Sprintf("Value: %d", 42)
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ = tinyfmt.Sprintf("Value: %d", 42)
+	println(result)
 
-	result, err = tinyfmt.Sprintf("Hex: %x", 255)
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ = tinyfmt.Sprintf("Hex: %x", 255)
+	println(result)
 
-	result, err = tinyfmt.Sprintf("Binary: %b", 7)
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ = tinyfmt.Sprintf("Binary: %b", 7)
+	println(result)
 
-	result, err = tinyfmt.Sprintf("Octal: %o", 64)
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ = tinyfmt.Sprintf("Octal: %o", 64)
+	println(result)
 
-	result, err = tinyfmt.Sprintf("Float: %.2f", 3.14159)
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ = tinyfmt.Sprintf("Float: %.2f", 3.14159)
+	println(result)
 
-	result, err = tinyfmt.Sprintf("Bool: %v", true)
-	if err != nil) {
-		println("Error:", err.Error())
-	} else {
-		println(result)
-	}
+	result, _ = tinyfmt.Sprintf("Bool: %v", true)
+	println(result)
 }
 ```
 
@@ -137,40 +126,13 @@ import (
 )
 
 func main() {
-	err := tinyfmt.Printf("Hello, %s!", "world")
-	if err != nil {
-		println("Error:", err.Error())
-	}
-
-	err = tinyfmt.Printf("Value: %d", 42)
-	if err != nil {
-		println("Error:", err.Error())
-	}
-
-	err = tinyfmt.Printf("Hex: %x", 255)
-	if err != nil {
-		println("Error:", err.Error())
-	}
-
-	err = tinyfmt.Printf("Binary: %b", 7)
-	if err != nil {
-		println("Error:", err.Error())
-	}
-
-	err = tinyfmt.Printf("Octal: %o", 64)
-	if err != nil {
-		println("Error:", err.Error())
-	}
-
-	err = tinyfmt.Printf("Float: %.2f", 3.14159)
-	if err != nil {
-		println("Error:", err.Error())
-	}
-
-	err = tinyfmt.Printf("Bool: %v", true)
-	if err != nil {
-		println("Error:", err.Error())
-	}
+	tinyfmt.Printf("Hello, %s!", "world")
+	tinyfmt.Printf("Value: %d", 42)
+	tinyfmt.Printf("Hex: %x", 255)
+	tinyfmt.Printf("Binary: %b", 7)
+	tinyfmt.Printf("Octal: %o", 64)
+	tinyfmt.Printf("Float: %.2f", 3.14159)
+	tinyfmt.Printf("Bool: %v", true)
 }
 ```
 
@@ -189,20 +151,17 @@ import (
 
 func main() {
 	var buf bytes.Buffer
-	err := tinyfmt.PrintToIO(&buf, "Hello, %s!", "world")
-	if err != nil {
-		println("Error:", err.Error())
-	} else {
-		println(buf.String())
-	}
+	tinyfmt.PrintToIO(&buf, "Hello, %s!", "world")
+	println(buf.String())
 
 	// Printing to standard output
-	err = tinyfmt.PrintToIO(os.Stdout, "Value: %d\n", 42)
-	if err != nil {
-		println("Error:", err.Error())
-	}
+	tinyfmt.PrintToIO(os.Stdout, "Value: %d\n", 42)
 }
 ```
+
+## Code Size
+
+Using `tinyfmt` results in significantly smaller code size compared to the standard library. When built with TinyGo for a Pico target, the code size increase when using `tinyfmt` was approximately **1.5kB**, compared to **40kB** when using the Go `fmt` package.
 
 ## License
 
