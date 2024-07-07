@@ -8,7 +8,7 @@ import (
 
 // PrintToIo formats according to a format specifier and writes to the provided io.Writer.
 func PrintToIo(w io.Writer, format string, arguments ...interface{}) error {
-	result, err := Format(format, arguments...)
+	result, err := Sprintf(format, arguments...)
 	if err != nil {
 		return errors.New("failed to format the string")
 	}
