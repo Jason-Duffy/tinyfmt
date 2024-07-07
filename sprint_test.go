@@ -19,6 +19,7 @@ func TestSprint(t *testing.T) {
 		{[]interface{}{nil}, "<unsupported>"},                                                     // Test unsupported type (nil)
 		{[]interface{}{1, 2, 3, 4, 5}, "12345"},                                                   // Test concatenating multiple integers
 		{[]interface{}{"Multiple: ", true, ", ", 1, ", ", "text"}, "Multiple: true, 1, text"},     // Test multiple different types
+		{[]interface{}{math.MaxInt64}, "9223372036854775807"},                                     // Test edge case for maximum integer value
 	}
 
 	for _, testCase := range testCases {
