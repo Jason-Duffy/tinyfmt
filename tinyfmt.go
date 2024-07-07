@@ -1,30 +1,32 @@
 package tinyfmt
 
-// Sprint formats the provided arguments and returns the resulting string
+import (
+	"github.com/Jason-Duffy/tinystrconv"
+)
+
+// Sprint concatenates the string representations of the provided arguments.
 func Sprint(arguments ...interface{}) string {
-	// Initialize an empty string to store the result
 	var result string
-	// Iterate over each argument
 	for _, argument := range arguments {
-		// Perform a type switch to handle different types of arguments
 		switch value := argument.(type) {
 		case string:
-			// If the argument is a string, append it to the result
 			result += value
 		case int:
-			// If the argument is an int, convert it to a string and append it to the result
-			result += itoa(value)
+			str, _ := tinystrconv.IntToString(value, 10)
+			result += str
 		case bool:
-			if value {
-				result += "true"
-			} else {
-				result += "false"
-			}
+			result += tinystrconv.BoolToString(value)
+		case float64:
+			str, _ := tinystrconv.FloatToString(value, -1) // Use -1 for full precision
+			result += str
 		default:
-			// For unsupported types, append a placeholder
 			result += "<unsupported>"
 		}
 	}
-	// Return the concatenated result
 	return result
+}
+
+// Sprintf formats the provided arguments according to the format specifier.
+func Sprintf(format string, arguments ...interface{}) (string, error) {
+	return tinystrconv.Format(format, arguments...)
 }
