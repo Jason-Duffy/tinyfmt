@@ -1,7 +1,7 @@
 // =============================================================================
 // Project: tinyfmt
-// File: print.go
-// Description: Functions for printing formatted strings to io.Writer and os.Stdout.
+// File: error.go
+// Description: Functions for formatting error messages.
 // Datasheet/Docs:
 //
 // Author: Jason Duffy
@@ -20,25 +20,17 @@ package tinyfmt
 
 import (
 	"errors"
-	"io"
-	"os"
 )
 
 // -------------------------------------------------------------------------- //
 //                              Public Functions                              //
 // -------------------------------------------------------------------------- //
 
-// PrintToIo formats according to a format specifier and writes to the provided io.Writer.
-func PrintToIo(w io.Writer, format string, arguments ...interface{}) error {
+// Errorf formats according to a format specifier and returns the string as a value that satisfies error.
+func Errorf(format string, arguments ...interface{}) error {
 	result, err := Sprintf(format, arguments...)
 	if err != nil {
-		return errors.New("failed to format the string")
+		return err
 	}
-	_, err = w.Write([]byte(result))
-	return err
-}
-
-// Printf formats according to a format specifier and writes to os.Stdout.
-func Printf(format string, arguments ...interface{}) error {
-	return PrintToIo(os.Stdout, format, arguments...)
+	return errors.New(result)
 }
