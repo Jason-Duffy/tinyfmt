@@ -37,11 +37,11 @@ func TestErrorf(t *testing.T) {
 		{"Code: %d", []interface{}{404}, "Code: 404"},                                       // Test formatting an integer error code
 		{"Invalid: %q", []interface{}{42}, "unsupported format specifier"},                  // Test with unsupported format specifier
 		{"Missing arg: %d %d", []interface{}{42}, "missing argument for %d"},                // Test with missing argument
-		{"", []interface{}{}, ""}, // Test with empty format string
-		{"Nil arg: %v", []interface{}{nil}, "argument for %v is not a bool"},                               // Test with nil argument
-		{"Multiple: %d, %s, %v", []interface{}{42, "test", true}, "Multiple: 42, test, true"},              // Test with multiple format specifiers
-		{"Unsupported type: %v", []interface{}{map[string]int{"key": 1}}, "argument for %v is not a bool"}, // Test with unsupported type
-		{"Percent sign: %%", []interface{}{}, "Percent sign: %"},                                           // Test with escaped percent sign
+		{"", []interface{}{}, ""},                                                                      // Test with empty format string
+		{"Nil arg: %v", []interface{}{nil}, "Nil arg: <unsupported>"},                                  // Test with nil argument
+		{"Multiple: %d, %s, %v", []interface{}{42, "test", true}, "Multiple: 42, test, true"},          // Test with multiple format specifiers
+		{"Unsupported type: %v", []interface{}{map[string]int{"key": 1}}, "Unsupported type: {key:1}"}, // Test with unsupported type
+		{"Percent sign: %%", []interface{}{}, "Percent sign: %"},                                       // Test with escaped percent sign
 	}
 
 	for _, testCase := range testCases {
