@@ -20,6 +20,7 @@ package tinyfmt
 
 import (
 	"errors"
+	"reflect"
 
 	"github.com/Jason-Duffy/tinystrconv"
 )
@@ -44,7 +45,7 @@ func Sprint(arguments ...interface{}) string {
 			str, _ := tinystrconv.FloatToString(value, -1) // Use -1 for full precision
 			result += str
 		default:
-			result += "<unsupported>"
+			result += formatUnsupported(value)
 		}
 	}
 	return result
@@ -152,11 +153,10 @@ func Sprintf(format string, arguments ...interface{}) (string, error) {
 					if argIndex >= len(arguments) {
 						return "", errors.New("missing argument for %v")
 					}
-					boolVal, ok := arguments[argIndex].(bool)
-					if !ok {
-						return "", errors.New("argument for %v is not a bool")
+					str, err := formatValue(arguments[argIndex])
+					if err != nil {
+						return "", err
 					}
-					str := tinystrconv.BoolToString(boolVal)
 					result = append(result, []byte(str)...)
 					argIndex++
 				case 's':
@@ -183,4 +183,82 @@ func Sprintf(format string, arguments ...interface{}) (string, error) {
 	}
 
 	return string(result), nil
+}
+
+// -------------------------------------------------------------------------- //
+//                             Private Functions                              //
+// -------------------------------------------------------------------------- //
+
+// formatUnsupported handles the formatting of unsupported types.
+func formatUnsupported(value interface{}) string {
+	v := reflect.ValueOf(value)
+	switch v.Kind() {
+	case reflect.Struct:
+		return formatStruct(v)
+	case reflect.Slice, reflect.Array:
+		return formatSlice(v)
+	case reflect.Map:
+		return formatMap(v)
+	default:
+		return "<unsupported>"
+	}
+}
+
+// formatValue handles the formatting of %v format specifier.
+func formatValue(value interface{}) (string, error) {
+	switch value := value.(type) {
+	case bool:
+		return tinystrconv.BoolToString(value), nil
+	case string:
+		return value, nil
+	case int:
+		return tinystrconv.IntToString(value, 10)
+	case float64:
+		return tinystrconv.FloatToString(value, -1)
+	default:
+		return formatUnsupported(value), nil
+	}
+}
+
+// formatStruct formats a struct as a string.
+func formatStruct(v reflect.Value) string {
+	result := "{"
+	for i := 0; i < v.NumField(); i++ {
+		if i > 0 {
+			result += " "
+		}
+		field := v.Type().Field(i).Name
+		value := v.Field(i).Interface()
+		result += field + ":" + Sprint(value)
+	}
+	result += "}"
+	return result
+}
+
+// formatSlice formats a slice or array as a string.
+func formatSlice(v reflect.Value) string {
+	result := "["
+	for i := 0; i < v.Len(); i++ {
+		if i > 0 {
+			result += " "
+		}
+		result += Sprint(v.Index(i).Interface())
+	}
+	result += "]"
+	return result
+}
+
+// formatMap formats a map as a string.
+func formatMap(v reflect.Value) string {
+	result := "{"
+	keys := v.MapKeys()
+	for i, key := range keys {
+		if i > 0 {
+			result += " "
+		}
+		value := v.MapIndex(key).Interface()
+		result += Sprint(key.Interface()) + ":" + Sprint(value)
+	}
+	result += "}"
+	return result
 }
